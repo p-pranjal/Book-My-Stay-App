@@ -1,71 +1,99 @@
+import java.util.HashMap;
+import java.util.Map;
 
-    abstract class Room {
 
-        protected int numberOfBeds;
-        protected int squareFeet;
-        protected double pricePerNight;
+class RoomInventory {
 
-        public Room(int numberOfBeds, int squareFeet, double pricePerNight) {
-            this.numberOfBeds = numberOfBeds;
-            this.squareFeet = squareFeet;
-            this.pricePerNight = pricePerNight;
-        }
+    private Map<String, Integer> roomAvailability;
 
-        public void displayRoomDetails() {
-            System.out.println("Beds: " + numberOfBeds);
-            System.out.println("Size: " + squareFeet + " sqft");
-            System.out.println("Price per night: " + pricePerNight);
-        }
+    public RoomInventory() {
+        roomAvailability = new HashMap<>();
+        initializeInventory();
     }
 
-
-    class SingleRoom extends Room { //Single room
-
-        public SingleRoom() {
-            super(1, 250, 1500.0);
-        }
+    private void initializeInventory() {
+        roomAvailability.put("Single Room", 5);
+        roomAvailability.put("Double Room", 3);
+        roomAvailability.put("Suite Room", 2);
     }
 
-    class DoubleRoom extends Room { //Double roomn
-
-        public DoubleRoom() {
-            super(2, 400, 2500.0);
-        }
+    public Map<String, Integer> getRoomAvailability() {
+        return roomAvailability;
     }
 
+    public void updateAvailability(String roomType, int count) {
+        roomAvailability.put(roomType, count);
+    }
+}
 
-    class SuiteRoom extends Room { //Suite room
 
-        public SuiteRoom() {
-            super(3, 750, 5000.0);
-        }
+abstract class Room {
+
+    protected int numberOfBeds;
+    protected int squareFeet;
+    protected double pricePerNight;
+
+    public Room(int numberOfBeds, int squareFeet, double pricePerNight) {
+        this.numberOfBeds = numberOfBeds;
+        this.squareFeet = squareFeet;
+        this.pricePerNight = pricePerNight;
     }
 
-
-    public class BookMyStayApp {
-
-        public static void main(String[] args) {
-
-            System.out.println("Hotel Room Initialization\n");
-
-            Room single = new SingleRoom();
-            Room doubleRoom = new DoubleRoom();
-            Room suite = new SuiteRoom();
-
-            int singleAvailable = 5;
-            int doubleAvailable = 3;
-            int suiteAvailable = 2;
-
-            System.out.println("Single Room:");
-            single.displayRoomDetails();
-            System.out.println("Available: " + singleAvailable);
-
-            System.out.println("\nDouble Room:");
-            doubleRoom.displayRoomDetails();
-            System.out.println("Available: " + doubleAvailable);
-
-            System.out.println("\nSuite Room:");
-            suite.displayRoomDetails();
-            System.out.println("Available: " + suiteAvailable);
-        }
+    public void displayRoomDetails() {
+        System.out.println("Beds: " + numberOfBeds);
+        System.out.println("Size: " + squareFeet + " sqft");
+        System.out.println("Price per night: " + pricePerNight);
     }
+}
+
+class SingleRoom extends Room { //SingleRoom
+
+    public SingleRoom() {
+        super(1, 250, 1500.0);
+    }
+}
+
+class DoubleRoom extends Room { //DoubleROOM
+
+    public DoubleRoom() {
+        super(2, 400, 2500.0);
+    }
+}
+
+
+
+class SuiteRoom extends Room { //SuiteRoom
+
+    public SuiteRoom() {
+        super(3, 750, 5000.0);
+    }
+}
+
+
+public class BookMyStayApp {
+
+    public static void main(String[] args) {
+
+        System.out.println("Hotel Room Inventory Status\n");
+
+        RoomInventory inventory = new RoomInventory();
+
+        Room single = new SingleRoom();
+        Room doubleRoom = new DoubleRoom();
+        Room suite = new SuiteRoom();
+
+        Map<String, Integer> availability = inventory.getRoomAvailability();
+
+        System.out.println("Single Room:");
+        single.displayRoomDetails();
+        System.out.println("Available Rooms: " + availability.get("Single Room"));
+
+        System.out.println("\nDouble Room:");
+        doubleRoom.displayRoomDetails();
+        System.out.println("Available Rooms: " + availability.get("Double Room"));
+
+        System.out.println("\nSuite Room:");
+        suite.displayRoomDetails();
+        System.out.println("Available Rooms: " + availability.get("Suite Room"));
+    }
+}
