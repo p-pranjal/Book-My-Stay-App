@@ -39,6 +39,8 @@ abstract class Room {
 }
 
 
+/* Room Types */
+
 class SingleRoom extends Room {
     public SingleRoom() {
         super(1, 250, 1500.0);
@@ -92,7 +94,6 @@ class RoomSearchService {
         }
     }
 }
-
 
 
 public class UseCase4RoomSearch {
